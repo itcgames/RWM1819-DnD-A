@@ -34,6 +34,8 @@ class DragDrop
   dragmove(e)
   {
     event.preventDefault();
+    if (e.target.parentElement.draggable)
+    {
       var targetRect = e.target.parentElement.square;
       if (e.target.parentElement.intersected == false)
       {
@@ -50,7 +52,6 @@ class DragDrop
         if (all[i].id != e.target.parentElement.id) {
           if (haveIntersection(all[i].square, targetRect)) {
             all[i].style.backgroundColor = "blue";
-            e.target.parentElement.draggable = false;
             console.log("Intersection");
             if (e.target.parentElement.intersected == false)
             {
@@ -61,10 +62,16 @@ class DragDrop
             break;
           }
           else {
-            e.target.parentElement.draggable = true;
+            e.target.parentElement.intersected = false;
             all[i].style.backgroundColor = "";
           }
       }
+      this.currentPosX = parseFloat(e.target.parentElement.previousX);
+      this.currentPosY = parseFloat(e.target.parentElement.previousY);
+      e.target.parentElement.style.left = this.currentPosX + "px";
+      e.target.parentElement.style.top = this.currentPosY + "px";
+      e.target.parentElement.posx = this.currentPosX;
+      e.target.parentElement.posy = this.currentPosY;
     };
       if (targetRect.x < 0)
       {
@@ -72,39 +79,41 @@ class DragDrop
       }
       
       e.target.parentElement.square = targetRect;
+    }
   }
   dragend(e)
   {
     event.preventDefault();
     if (e.target.parentElement.draggable)
     {
-    this.dragend = e.target;
-    this.currentPosX = 0;
-    this.currentPosY = 0;
-    if (e.target.parentElement.intersected === true)
-    {
       e.target.parentElement.intersected = false;
-      this.currentPosX = parseFloat(e.target.parentElement.previousX);
-      this.currentPosY = parseFloat(e.target.parentElement.previousY);
-      console.log(e.target.parentElement.intersectX, e.target.parentElement.intersectY);
-      e.target.parentElement.style.left = this.currentPosX + "px";
-      e.target.parentElement.style.top = this.currentPosY + "px";
-      e.target.parentElement.posx = this.currentPosX;
-      e.target.parentElement.posy = this.currentPosY;
-      console.log("dragend after intersection");
-    }
-    else
-    {
-    this.currentPosX = parseFloat(e.clientX) - parseFloat(this.offsetx);
-    this.currentPosY = parseFloat(e.clientY) - parseFloat(this.offsety);
+    //this.dragend = e.target;
+    //this.currentPosX = 0;
+    //this.currentPosY = 0;
+    //if (e.target.parentElement.intersected === true)
+    //{
+    //  e.target.parentElement.intersected = false;
+    //  this.currentPosX = parseFloat(e.target.parentElement.previousX);
+    //  this.currentPosY = parseFloat(e.target.parentElement.previousY);
+    //  console.log(e.target.parentElement.intersectX, e.target.parentElement.intersectY);
+    //  e.target.parentElement.style.left = this.currentPosX + "px";
+    //  e.target.parentElement.style.top = this.currentPosY + "px";
+    //  e.target.parentElement.posx = this.currentPosX;
+    //  e.target.parentElement.posy = this.currentPosY;
+    //  console.log("dragend after intersection");
+    //}
+    //else
+    //{
+    //this.currentPosX = parseFloat(e.clientX) - parseFloat(this.offsetx);
+    //this.currentPosY = parseFloat(e.clientY) - parseFloat(this.offsety);
     console.log(this.currentPosX, this.currentPosY);
-    e.target.parentElement.style.left = this.currentPosX + "px";
-    e.target.parentElement.style.top = this.currentPosY + "px";
-    e.target.parentElement.posx = this.currentPosX;
-    e.target.parentElement.posy = this.currentPosY;
-    }
-    e.target.parentElement.square.x = this.currentPosX;
-    e.target.parentElement.square.y = this.currentPosY;
+    //e.target.parentElement.style.left = this.currentPosX + "px";
+    //e.target.parentElement.style.top = this.currentPosY + "px";
+    //e.target.parentElement.posx = this.currentPosX;
+    //e.target.parentElement.posy = this.currentPosY;
+    //}
+    //e.target.parentElement.square.x = this.currentPosX;
+    //e.target.parentElement.square.y = this.currentPosY;
 
     //e.target.parentElement.style.visibility = "visible";
     }
