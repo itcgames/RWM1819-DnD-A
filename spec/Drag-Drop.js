@@ -129,7 +129,3 @@ class DragDrop
     );
   }
 }
-
-if (typeof module !== "undefined") {
-  module.exports = DragDrop; // Enter your class name
-}
