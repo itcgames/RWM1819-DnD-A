@@ -16,3 +16,7 @@ class Square
         ctx.fillRect(this.x, this.y, this.width, this.height);
     }
 }
+
+if (typeof module !== "undefined") {
+    module.exports = Square; // Enter your class name
+  }
