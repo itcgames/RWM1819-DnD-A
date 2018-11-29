@@ -37,7 +37,6 @@ class DragDrop {
 
     if (indexToDelete !== undefined) {
       this.draggableObjects.splice(indexToDelete, 1);
-      console.log(this.draggableObjects);
     }
   }
 
