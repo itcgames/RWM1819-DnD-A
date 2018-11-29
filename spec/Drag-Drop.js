@@ -12,7 +12,7 @@ class DragDrop {
     this.draggableObjects = [];
     /** @type {{ position: { x: number, y: number }, }} */
     this.dragTarget = null;
-    window.addEventListener("mousemove", this.mouseMove.bind(this.dnd));
+    window.addEventListener("mousemove", this.mouseMove.bind(this));
 
   }
 
