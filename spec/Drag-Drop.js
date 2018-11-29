@@ -45,9 +45,7 @@ class DragDrop {
   }
 
   clearDraggables() {
-    for (var index in this.draggableObjects) {
-      this.draggableObjects[index] = null;
-    }
+    this.draggableObjects = [];
   }
 
 
