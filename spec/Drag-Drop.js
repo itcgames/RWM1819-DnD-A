@@ -2,9 +2,6 @@
 
 class DragDrop {
   constructor() {
-    //document.addEventListener("dragstart", this.dragstart);
-    //document.addEventListener("drag", this.dragmove);
-    //document.addEventListener("dragend", this.dragend);
     this.currentPosX = 0;
     this.currentPosY = 0;
     this.offsetx = 0;
@@ -15,10 +12,8 @@ class DragDrop {
     this.draggableObjects = [];
     /** @type {{ position: { x: number, y: number }, }} */
     this.dragTarget = null;
+    window.addEventListener("mousemove", this.mouseMove.bind(this.dnd));
 
-    window.addEventListener("mousedown", this.dragstart.bind(this));
-    window.addEventListener("mousemove", this.mouseMove.bind(this));
-    window.addEventListener("mouseup", this.dragend.bind(this));
   }
 
 
@@ -31,7 +26,15 @@ class DragDrop {
     this.draggableObjects.push(object);
   }
 
+  removeTargetDraggable() {
+    this.draggableObjects[this.dragIndex] = null;
+  }
 
+  clearDraggables() {
+    for (var index in this.draggableObjects) {
+      this.draggableObjects[index] = null;
+    }
+  }
 
 
   /**
@@ -48,24 +51,6 @@ class DragDrop {
         this.offsety = e.clientY - this.dragTarget.y;
       }
     }
-    // this.draggableObjects.forEach(function (element) {
-    // if (this.pointIntersection(e.clientX, e.clientY, element) == true) {
-    // this.dragTarget = element;
-    // console.log("Intersection");
-    //}
-    // });
-    // var img = new Image();
-    // img.src = "blank.png";
-    // e.dataTransfer.setDragImage(img, 0, 0);
-    // this.dragged = e.target;
-    // this.currentPosX = e.clientX;
-    // this.currentPosY = e.clientY;
-    // console.log(this.currentPosX, this.currentPosY);
-    // var crt = e.target.parentElement;
-    // crt.style.visibility = "hidden"; /* or visibility: hidden, or any of the above */
-    // document.body.appendChild(crt);
-    // e.dataTransfer.setDragImage(crt, 0, 0);
-
   }
   dragmove(e) {
     event.preventDefault();
@@ -116,34 +101,6 @@ class DragDrop {
 
     if (e.button !== 0 && this.dragTarget !== null) { return; }
     this.dragTarget = null;
-    //this.dragend = e.target;
-    //this.currentPosX = 0;
-    //this.currentPosY = 0;
-    //if (e.target.parentElement.intersected === true)
-    //{
-    //  e.target.parentElement.intersected = false;
-    //  this.currentPosX = parseFloat(e.target.parentElement.previousX);
-    //  this.currentPosY = parseFloat(e.target.parentElement.previousY);
-    //  console.log(e.target.parentElement.intersectX, e.target.parentElement.intersectY);
-    //  e.target.parentElement.style.left = this.currentPosX + "px";
-    //  e.target.parentElement.style.top = this.currentPosY + "px";
-    //  e.target.parentElement.posx = this.currentPosX;
-    //  e.target.parentElement.posy = this.currentPosY;
-    //  console.log("dragend after intersection");
-    //}
-    //else
-    //{
-    //this.currentPosX = parseFloat(e.clientX) - parseFloat(this.offsetx);
-    //this.currentPosY = parseFloat(e.clientY) - parseFloat(this.offsety);
-    //e.target.parentElement.style.left = this.currentPosX + "px";
-    //e.target.parentElement.style.top = this.currentPosY + "px";
-    //e.target.parentElement.posx = this.currentPosX;
-    //e.target.parentElement.posy = this.currentPosY;
-    //}
-    //e.target.parentElement.square.x = this.currentPosX;
-    //e.target.parentElement.square.y = this.currentPosY;
-
-    //e.target.parentElement.style.visibility = "visible";
   }
 
   render(ctx) {
@@ -160,6 +117,15 @@ class DragDrop {
       r2.y + r2.height < r1.y
     );
   }
+
+  update() {
+    if (this.dragTarget != null) {
+      this.dragTarget.x = this.mouseX - this.offsetx;
+      this.dragTarget.y = this.mouseY - this.offsety;
+      this.draggableObjects[this.dragIndex] = this.dragTarget;
+    }
+  }
+
 
   /**
    * 

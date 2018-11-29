@@ -6,14 +6,13 @@ class Game {
     /** @type {HTMLCanvasElement} */
     const canvas = document.getElementById("canvas");
     this.context2D = canvas.getContext("2d");
+    
+    window.addEventListener("mousedown", this.dnd.dragstart.bind(this.dnd));
+    window.addEventListener("mouseup", this.dnd.dragend.bind(this.dnd));
   }
 
   update() {
-    if (this.dnd.dragTarget != null) {
-      this.dnd.dragTarget.x = this.dnd.mouseX - this.dnd.offsetx;
-      this.dnd.dragTarget.y = this.dnd.mouseY - this.dnd.offsety;
-      this.dnd.draggableObjects[this.dnd.dragIndex] = this.dnd.dragTarget;
-    }
+    this.dnd.update();
   }
 
   draw(ctx) {
