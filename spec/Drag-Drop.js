@@ -28,17 +28,14 @@ class DragDrop {
 
   removeTargetDraggable(obj) {
     var indexToDelete = undefined;
-    for (var index in this.draggableObjects)
-    {
-      if (this.draggableObjects[index] === obj)
-      {
+    for (var index in this.draggableObjects) {
+      if (this.draggableObjects[index] === obj) {
         indexToDelete = index;
         break;
       }
     }
 
-    if(indexToDelete !== undefined)
-    {
+    if (indexToDelete !== undefined) {
       this.draggableObjects.splice(indexToDelete, 1);
       console.log(this.draggableObjects);
     }
