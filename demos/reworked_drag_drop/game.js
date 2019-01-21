@@ -2,7 +2,7 @@ class Game {
   constructor() {
     this.rect = new Square(100, 100, 50, 50, "#e01414");
     this.dnd = new DragDrop();
-    this.dnd.addDraggable(this.rect);
+    this.dnd.addDraggable(this.rect, false, true);
     /** @type {HTMLCanvasElement} */
     const canvas = document.getElementById("canvas");
     this.context2D = canvas.getContext("2d");

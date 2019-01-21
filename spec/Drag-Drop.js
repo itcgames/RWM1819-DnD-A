@@ -12,6 +12,8 @@ class DragDrop {
     this.draggableObjects = [];
     /** @type {{ position: { x: number, y: number }, }} */
     this.dragTarget = null;
+    /** @type {Map<[Boolean, boolean]>} */
+    this.axisLocks = new Object();
     window.addEventListener("mousemove", this.mouseMove.bind(this));
 
   }
@@ -22,7 +24,9 @@ class DragDrop {
     this.mouseY = e.clientY;
   }
 
-  addDraggable(object) {
+  addDraggable(object, xBool, yBool) {
+    this.axisLocks[object] = [xBool, yBool];
+
     this.draggableObjects.push(object);
   }
 
@@ -128,8 +132,14 @@ class DragDrop {
 
   update() {
     if (this.dragTarget != null) {
-      this.dragTarget.x = this.mouseX - this.offsetx;
-      this.dragTarget.y = this.mouseY - this.offsety;
+      if (this.axisLocks[this.dragTarget][0] != true)
+      {
+        this.dragTarget.x = this.mouseX - this.offsetx;
+      }
+      if (this.axisLocks[this.dragTarget][1] != true)
+      {
+        this.dragTarget.y = this.mouseY - this.offsety;
+      }
       this.draggableObjects[this.dragIndex] = this.dragTarget;
     }
   }
